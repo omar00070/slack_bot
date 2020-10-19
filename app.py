@@ -11,16 +11,17 @@ import random
 # - user should fill in the question as well as the potintial answer
 # - post the data to slacks upload file api to the target channel
 
-# take a screenshot
+#change this token value
+TOKEN = os.environ.get('SLACK_TOKEN')
 
 class App:
     def __init__(self):
-        self._token = os.environ.get('SLACK_TOKEN')
+        self._token = TOKEN
         self.img = None
         self.question = None
         self.answer = None
         self.link = None
-        self.bbox = (400, 400, 700, 700)
+        self.bbox = (0, 0, 2048, 1080)
         self.Slacker = Slack(
             self._token, 
             BearerAuth(self._token)
@@ -66,7 +67,7 @@ class App:
         self.Slacker.send_file(channel, self.img, message)
         os.remove(self.img)
         self.__init__()
-        
+
     def run(self):
         root = tk.Tk()
         # myButton = tk.Button(
