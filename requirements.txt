@@ -2,10 +2,14 @@ certifi==2020.6.20
 chardet==3.0.4
 EasyProcess==0.3
 entrypoint2==0.2.3
+evdev==1.3.0
 idna==2.10
 jeepney==0.4.3
 mss==6.0.0
 Pillow==8.0.0
+pynput==1.7.1
 pyscreenshot==2.2
+python-xlib==0.28
 requests==2.24.0
+six==1.15.0
 urllib3==1.25.10

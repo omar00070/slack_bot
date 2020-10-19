@@ -1,9 +1,9 @@
 from slack import BearerAuth, Slack
-import os
+import random, os
 import pyscreenshot as ImageGrab
 import tkinter as tk
 from tkinter import filedialog
-import random
+from mouse import Mouse
 
 # application stes:
 # - take a screenshot and save to the users storage
@@ -26,6 +26,7 @@ class App:
             self._token, 
             BearerAuth(self._token)
         )
+        self.mouse = Mouse()
 
     def screenshot(self):
         '''
@@ -33,6 +34,10 @@ class App:
             params: bbox: tuple (x1, y1, x2, y2)
             returns: image_name
         '''
+        #get the pox
+        self.mouse.start()
+        self.bbox = self.mouse.get_bbox()
+
         im = ImageGrab.grab(bbox=self.bbox)
         image_name = f'screenshot_{random.randint(1, 1000000)}.png'
         im.save(image_name)
@@ -77,7 +82,8 @@ class App:
         #     fg='white',
         #     font=10
         # )
-
+        
+        #labels
         tk.Label(root, 
             text="Question").grid(row=0)
         tk.Label(root, 
@@ -85,6 +91,7 @@ class App:
         tk.Label(root, 
             text="Link").grid(row=2)
 
+        #entries
         e_question = tk.Entry(root)
         e_answer = tk.Entry(root)
         e_link = tk.Entry(root)
@@ -93,6 +100,7 @@ class App:
         e_link.grid(row=2, column=1)
         ents = [e_question, e_answer, e_link]
 
+        #buttons
         tk.Button(root, 
           text='screenshot', 
           command=self.screenshot).grid(row=3, 
@@ -108,6 +116,7 @@ class App:
                                     sticky=tk.W, 
                                     pady=3)
 
+        
         tk.mainloop()
 
 
