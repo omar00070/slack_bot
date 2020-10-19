@@ -28,10 +28,16 @@ class Slack:
             parameters: self
             returns: a python dict object in the format {'conversation_name': 'conversation_id'}
         '''
-        res = requests.get(self.urls['getConversations'], auth=self.auth).json()
-        channels = {channel['name']: channel['id'] for channel in res['channels']}
-        print(self.auth.token)
-        return channels
+        res = requests.get(
+            self.urls['getConversations'], 
+            auth=self.auth)
+        res_json = res.json()
+        channels = {channel['name']: channel['id'] for channel in res_json['channels']}
+        
+        if not res_json['ok']:
+            print(res_json['error'])
+        
+        return channels, res
     
     def send_message(self, content, channel_id):
         '''
@@ -45,10 +51,19 @@ class Slack:
             "text": content,
         }
         data = json.dumps(payload)
-        res = requests.post(self.urls['sendMessage'], headers=headers, data=data)
+        res = requests.post(
+            self.urls['sendMessage'],
+            auth=self.auth, 
+            headers=headers, data=data
+            )
+        
+        res_json = res.json()
+        if not res_json['ok']:
+            print(res_json['error'])
+        
         return res
 
-    def send_file(self, channels, file_path, text):
+    def send_file(self, channels, file_path, text=None):
         '''
         TODO: send files using a more customisable method to add more than just one
         string
@@ -67,5 +82,16 @@ class Slack:
             'channels': channels,
             'initial_comment': text
         }
-        res = requests.post(self.urls['uploadFile'], data=data, files=files)
+        res = requests.post(
+            self.urls['uploadFile'], 
+            auth=self.auth,
+            data=data, 
+            files=files
+            )
+
+        res_json = res.json()
+
+        if not res_json['ok']:
+            print(res_json['error'])
+
         return res
