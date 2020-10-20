@@ -14,6 +14,7 @@ from mouse import Mouse
 #change this token value
 TOKEN = os.environ.get('SLACK_TOKEN')
 
+
 class App:
     def __init__(self):
         self._token = TOKEN
@@ -21,6 +22,7 @@ class App:
         self.question = None
         self.answer = None
         self.link = None
+        self.by = None
         self.bbox = (0, 0, 2048, 1080)
         self.Slacker = Slack(
             self._token, 
@@ -51,8 +53,11 @@ class App:
         '''
         #get all public channels
         channels, _ = self.Slacker.get_conversations()
+        print(channels)
         #channel to send to 
-        channel = channels['test']
+        # channel = channels['test']  ----> for testing
+        
+        channel = channels['04-labeling-questions']
         
         for ent in entries:
             if not ent.get(): 
@@ -62,12 +67,14 @@ class App:
         if not self.img:
             print('please take a screenshot')
             return #make sure the screenshot is taken
-
-        self.question = entries[0].get()
-        self.answer = entries[1].get()
-        self.link = entries[2].get()
         
-        message = f'*Question:* {self.question}\n*Potential answer:* {self.answer}\n*Link:* {self.link}'
+        # test information to send
+        self.by = entries[0].get()
+        self.question = entries[1].get()
+        self.answer = entries[2].get()
+        self.link = entries[3].get()
+        
+        message = f'*By:* {self.by}\n*Question:* {self.question}\n*Potential answer:* {self.answer}\n*Link:* {self.link}'
         
         self.Slacker.send_file(channel, self.img, message)
         os.remove(self.img)
@@ -85,25 +92,32 @@ class App:
         
         #labels
         tk.Label(root, 
-            text="Question").grid(row=0)
+            text="By").grid(row=0)
         tk.Label(root, 
-            text="Potential Answer").grid(row=1)
+            text="Question").grid(row=1)
         tk.Label(root, 
-            text="Link").grid(row=2)
+            text="Potential Answer").grid(row=2)
+        tk.Label(root, 
+            text="Link").grid(row=3)
 
         #entries
+        e_by = tk.Entry(root)
         e_question = tk.Entry(root)
         e_answer = tk.Entry(root)
         e_link = tk.Entry(root)
-        e_question.grid(row=0, column=1)
-        e_answer.grid(row=1, column=1)
-        e_link.grid(row=2, column=1)
-        ents = [e_question, e_answer, e_link]
+        
+        e_by.grid(row=0, column=1)
+        e_question.grid(row=1, column=1)
+        e_answer.grid(row=2, column=1)
+        e_link.grid(row=3, column=1)
+        ents = [e_by, e_question, e_answer, e_link]
+
+        e_by.insert(0, 'Omar') # insert default value as the user
 
         #buttons
         tk.Button(root, 
           text='screenshot', 
-          command=self.screenshot).grid(row=3, 
+          command=self.screenshot).grid(row=5, 
                                     column=0, 
                                     sticky=tk.W, 
                                     pady=4)
@@ -111,7 +125,7 @@ class App:
         
         tk.Button(root, 
           text='send', 
-          command=lambda : self.send(ents)).grid(row=3, 
+          command=lambda : self.send(ents)).grid(row=5, 
                                     column=2, 
                                     sticky=tk.W, 
                                     pady=3)
