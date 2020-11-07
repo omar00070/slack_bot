@@ -119,14 +119,7 @@ class App:
 
     def run(self):
         root = tk.Tk()
-        # myButton = tk.Button(
-        #     text="Take Screenshot",
-        #     command=self.screenshot,
-        #     bg='green',
-        #     fg='white',
-        #     font=10
-        # )
-        
+    
         #labels
         tk.Label(root, 
             text="User ID").grid(row=0)
