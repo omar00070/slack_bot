@@ -1,4 +1,3 @@
-from slack import BearerAuth, Slack
 import random, os, requests, json
 import pyscreenshot as ImageGrab
 import tkinter as tk
@@ -22,11 +21,6 @@ TEAM_LEADERS = {
 
 
 
-
-#change this token value
-TOKEN = os.environ.get('SLACK_TOKEN')
-
-
 class App:
     def __init__(self):
         self.image       = None #image object "screenshot image object"
@@ -40,7 +34,6 @@ class App:
         self.user_id     = None
         
         self.mouse  = Mouse()
-
         self.bbox = (0, 0, 2048, 1080)
 
         
