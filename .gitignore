@@ -1,4 +1,8 @@
+.vscode
 venv
+build
+dist
+*.spec
 __pycache__
 **/__pycache___
 test.txt

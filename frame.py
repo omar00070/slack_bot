@@ -50,7 +50,6 @@ class Frame:
         self.draw_image()
 
     def _click_callback(self, event):
-        print("clicked at", event.x, event.y)
         if not self.rect_x1:
             self.rect_x1, self.rect_y1 = event.x, event.y
             return

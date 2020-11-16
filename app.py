@@ -142,9 +142,10 @@ class App:
 
         res = requests.post(
             f'https://hadesslackbot.herokuapp.com/send_file/{str(self.user_id)}/{str(message)}', files=files)
+
         # f'http://127.0.0.1:8000/send_file/{str(self.user_id)}/{str(message)}', files=files) debugging
 
-        print(res.status_code)
+        # print(res.status_code)
 
         entries[3].delete(0, tk.END)
         entries[4].delete(0, tk.END)
