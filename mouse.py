@@ -9,7 +9,7 @@ class Mouse:
         self.y2 = None
         self.pressed = False
         self.button = None
-        
+
     # def on_move(self, x, y):
     #     if self.pressed:
     #         if self.x1 == None and self.y1 == None:
@@ -23,8 +23,6 @@ class Mouse:
             else:
                 self.x1, self.y1 = x, y
         if not pressed and not self.x2 == None:
-            # self.x2 = x
-            # self.y2 = y
             return False
         self.button = button
 
@@ -33,8 +31,8 @@ class Mouse:
         y1, y2 = sorted([self.y1, self.y2])
 
         return (x1, y1, x2, y2)
-    
+
     def start(self):
-        self.__init__() # initiate first
+        self.__init__()  # initiate first
         with Listener(on_click=self.on_click) as listener:
             listener.join()
